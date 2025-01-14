@@ -26,7 +26,7 @@
         </div>
       </div>
       <div>
-        <a class="block w-1/4 py-2 bg-sky-500 border border-sky-600 text-white text-center" @click.prevent="store" href="#">Save</a>
+        <a class="block w-1/4 py-2 bg-sky-500 border border-sky-600 text-white text-center" @click.prevent="update" href="#">Save</a>
       </div>
     </div>
   </div>
@@ -44,10 +44,15 @@ export default {
       'branch',
   ],
 
+  mounted() {
+    this.getBranches()
+      this.parent_id = this.branch.parent_id
+  },
+
   data() {
     return {
-      title: '',
-      section_id: null,
+      title: this.branch.title,
+      section_id: this.branch.section_id,
       parent_id: null,
       branches: [],
     }
@@ -58,8 +63,8 @@ export default {
   },
 
   methods: {
-    store() {
-      this.$inertia.post('/branches', {
+    update() {
+      this.$inertia.patch(`/branches${this.branch.id}`, {
         section_id: this.section_id,
         parent_id: this.parent_id,
         title: this.title,
@@ -68,7 +73,7 @@ export default {
 
     getBranches () {
       this.parent_id = null
-      axios.get(`/sections/${this.section_id}/branches`)
+      axios.get(`/sections/${this.section_id}/branches_except/${this.branch.id}`)
           .then( res => {
             this.branches = res.data
           })

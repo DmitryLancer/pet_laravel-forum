@@ -18,6 +18,16 @@ class BranchResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'section_id' => $this->section_id,
+            'parent_id' => $this->parent_id,
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'Поле title необходимо для заполнения',
+            'section_id.required' => 'Поле section_id необходимо для заполнения',
         ];
     }
 }

@@ -85,4 +85,10 @@ class SectionController extends Controller
     {
         return BranchResource::collection($section->branches)->resolve();
     }
+
+    public function branchIndexExcept(Section $section, Branch $branch)
+    {
+        $branches = $section->branches()->where('id', '!=', $branch->id)->get();
+        return BranchResource::collection($branches)->resolve();
+    }
 }
