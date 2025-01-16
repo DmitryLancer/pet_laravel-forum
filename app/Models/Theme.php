@@ -12,4 +12,9 @@ class Theme extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'theme_id', 'id');
+    }
 }
