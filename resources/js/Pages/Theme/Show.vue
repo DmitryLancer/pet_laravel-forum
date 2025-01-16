@@ -6,6 +6,19 @@
     <div>
 
     </div>
+    <div class="bg-white border-gray-300 border p-4">
+      <div class="mb-4">
+        <h3 class="text-xl  mr-4">Add message</h3>
+      </div>
+      <div class="mb-4">
+          <div ref="editor" class="w-full border-gray-300 border p-2" contenteditable="true">
+
+          </div>
+      </div>
+      <div>
+        <a @click.prevent="store" class="block w-1/4 p-2 bg-sky-600 text-white text-center border border-sky-700" href="#">Publish</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -21,11 +34,24 @@ export default {
   ],
 
   data() {
-
+    return {
+      content: '',
+    }
   },
 
   components: {
     Link
+  },
+
+  methods: {
+    store() {
+      axios.post('/messages', {
+        content: this.$refs.editor.innerHTML,
+        theme_id: this.theme.id,
+      }).then( res => {
+        this.$refs.editor.innerHTML = ''
+      })
+    }
   },
 
   layout: MainLayout
