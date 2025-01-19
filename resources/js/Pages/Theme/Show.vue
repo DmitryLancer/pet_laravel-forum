@@ -24,6 +24,9 @@
                   <p v-html="message.content"></p>
                 </div>
                 <div class="flex items-center justify-end w-full">
+                  <div class="mr-4">
+                    <a href="#" @click.prevent="openComplaint(message)" class="text-sm rounded-lg bg-white border border-red-800 inline-block py-2 px-3 text-center text-red-800">Complain</a>
+                  </div>
 
                   <div class="mr-4">
                     <a href="#" @click.prevent="quote(message.content)" class="text-sm rounded-lg bg-sky-600 border border-sky-700 inline-block py-2 px-3 text-center text-white">Quote</a>
@@ -43,6 +46,10 @@
                       </svg>
                     </a>
                   </div>
+                </div>
+                <div class="flex" v-if="message.is_complaint">
+                  <input v-model="message.body" class="p-2 w-5/6 rounded-r-none rounded-lg border border-gray-300 w-full" type="text" placeholder="Your complaint">
+                  <a @click.prevent="complaint(message)" class="block w-1/6 rounded-l-none text-center bg-red-800 text-white p-2 rounded-lg" href="">Send</a>
                 </div>
               </div>
             </div>
@@ -119,7 +126,21 @@ export default {
       const editor = this.$refs.editor;
       const oldText = editor.innerHTML
       editor.innerHTML = `${oldText} ${title}<blockquote> ${message.content} </blockquote><br>`
-    }
+    },
+
+    openComplaint(message) {
+      message.body = '';
+      message.is_complaint = !message.is_complaint
+    },
+
+    complaint(message) {
+      axios.post(`/messages/${message.id}/complaints`, {
+        body: message.body,
+        theme_id: message.theme_id,
+      }).then(res => {
+        message.body = ''
+      })
+    },
   },
 
   layout: MainLayout

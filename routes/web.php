@@ -47,6 +47,9 @@ Route::middleware('auth')->group(function () {
         ->name('branches.themes.create');
 
     Route::post('messages/{message}/likes', [MessageController::class, 'toggleLike'])
+        ->name('messages.complaints.store');
+
+    Route::post('messages/{message}/complaints', [MessageController::class, 'storeComplaint'])
         ->name('messages.likes.toggle');
 
     Route::get('users/personal', [UserController::class, 'personal'])
