@@ -11,6 +11,8 @@ class Message extends Model
 
     protected $guarded = [];
 
+    protected $withCount = ['likedUsers'];
+
     public function getIsLikedAttribute()
     {
         return $this->likedUsers()->where('user_id', auth()->id())->exists();
