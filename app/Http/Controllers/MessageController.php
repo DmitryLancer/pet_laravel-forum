@@ -34,6 +34,8 @@ class MessageController extends Controller
         $data['user_id'] = auth()->id();
         $message = Message::create($data);
 
+        $message->loadCount('likedUsers');
+
         return MessageResource::make($message)->resolve();
     }
 
